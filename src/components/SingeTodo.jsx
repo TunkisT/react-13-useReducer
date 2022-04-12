@@ -1,9 +1,16 @@
-import React from 'react'
+import React from 'react';
+import css from './SingeTodo.module.css';
 
 function SingeTodo(props) {
   return (
-    <li>{props.title}</li>
-  )
+    <li style={{ textDecoration: props.status ? 'line-through' : 'none' }}>
+      <span>{props.title}</span>
+      <button onClick={() => props.onCheck(props.id)} className={css.btn}>
+        Check
+      </button>
+      <button>Delete me</button>
+    </li>
+  );
 }
 
-export default SingeTodo
+export default SingeTodo;
