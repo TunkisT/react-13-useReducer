@@ -9,11 +9,15 @@ const initTodos = [
 
 function ToDoListReduce() {
   const [todos, dispatch] = useReducer(todoReducer, initTodos);
+
   const [todoTitle, setTodoTitle] = useState('');
 
   function checkHandler(todoId) {
     dispatch({ type: 'checkTodo', payload: todoId });
-    console.log(todoId);
+  }
+
+  function deleteHandler(id) {
+    dispatch({ type: 'removeTodo', payload: id });
   }
 
   function todoReducer(todos, action) {
@@ -25,6 +29,9 @@ function ToDoListReduce() {
         const found = todoCopy.find((obj) => obj.id === action.payload);
         found.doneStatus = !found.doneStatus;
         return todoCopy;
+      case 'removeTodo':
+        const arrAfterDelete = todos.filter((obj) => obj.id !== action.payload);
+        return arrAfterDelete;
       default:
         throw new Error('No action type found');
     }
@@ -35,7 +42,7 @@ function ToDoListReduce() {
     const newTodo = {
       id: uuidv4(),
       title: todoTitle,
-      doneStatus: true,
+      doneStatus: false,
     };
     dispatch({ type: 'addTodo', payload: newTodo });
     setTodoTitle('');
@@ -56,6 +63,7 @@ function ToDoListReduce() {
       <ul>
         {todos.map((obj) => (
           <SingeTodo
+            onDelete={deleteHandler}
             onCheck={checkHandler}
             status={obj.doneStatus}
             id={obj.id}

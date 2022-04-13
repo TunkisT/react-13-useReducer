@@ -8,7 +8,9 @@ function SingeTodo(props) {
       <button onClick={() => props.onCheck(props.id)} className={css.btn}>
         Check
       </button>
-      <button>Delete me</button>
+      <button className={css.btn} onClick={() => props.onDelete(props.id)}>
+        Delete me
+      </button>
     </li>
   );
 }
